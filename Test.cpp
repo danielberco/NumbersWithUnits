@@ -6,104 +6,91 @@
 #include <stdexcept>
 #include "NumberWithUnits.hpp"
 
-
-
 using namespace ariel;
 using namespace std;
 
 ifstream units_file{"units.txt"};
 
 
-TEST_CASE("Adding units"){// NumberWithUnits+NumberWithUnits
+TEST_CASE("Boolean operators"){
     NumberWithUnits::read_units(units_file);
-
-    NumberWithUnits Unita{5, "km"};
-    NumberWithUnits Unitb{7, "m"};
-    NumberWithUnits Unitc{2, "hour"};
-    NumberWithUnits Unitd{1, "g"};
-    NumberWithUnits Unite{1, "ton"};
-    CHECK_EQ(Unitd+Unite , NumberWithUnits{1000001,"g"});
-    CHECK_EQ(Unita+Unitb , NumberWithUnits{5.007, "km"});
-    CHECK_EQ(Unitb+Unita , NumberWithUnits{5007, "m"});
-    CHECK_THROWS(Unita+Unitc);
-    CHECK_THROWS_MESSAGE(Unitc+Unite,"error to covert ");
-    CHECK_THROWS(Unitc+Unita);
-}
-
-
-TEST_CASE("increase"){//x++,++x
-    NumberWithUnits::read_units(units_file);
-    NumberWithUnits Unita{4, "km"};
-     CHECK(Unita++ == NumberWithUnits{4, "km"});
-     CHECK(Unita == NumberWithUnits{5, "km"});
-     CHECK(++Unita == NumberWithUnits{6, "km"});
-     CHECK(Unita == NumberWithUnits{6, "km"});
-
-}
-
-
-TEST_CASE("decrease"){//--x,x--
-    NumberWithUnits::read_units(units_file);
-    NumberWithUnits Unita{4, "km"};
-    NumberWithUnits Unitb{61, "min"};
-    CHECK(Unitb-- == NumberWithUnits{61, "min"});
-    CHECK(Unita-- == NumberWithUnits{4, "km"});
-    CHECK(Unita == NumberWithUnits{3, "km"});
-    CHECK(--Unita == NumberWithUnits{1, "km"});
-    CHECK(Unita == NumberWithUnits{1, "km"});
-}
-
-TEST_CASE("comparision increase operators"){//x+=y,y+=x
-      NumberWithUnits::read_units(units_file);
-      NumberWithUnits Unita{5, "km"};
-      NumberWithUnits Unitb{4000, "m"};
-       NumberWithUnits Unitc{2000, "kg"};
-      NumberWithUnits Unitd{1, "g"};
-       CHECK((Unitc+=Unitd) == NumberWithUnits{20001, "kg"});
-      CHECK((Unita+=Unitb) == NumberWithUnits{9, "km"});
-    CHECK(Unita == NumberWithUnits{9, "km"});
-    CHECK((Unitb+=Unita) == NumberWithUnits{13000, "m"});
-    CHECK(Unitb== NumberWithUnits{13000, "m"});
-}
-TEST_CASE("comparision decrease operators"){//x-=y,y-=x
-      NumberWithUnits::read_units(units_file);
-      NumberWithUnits Unita{5, "km"};
-      NumberWithUnits Unitb{2000, "m"};
-      NumberWithUnits Unitc{2000, "kg"};
-      NumberWithUnits Unitd{1, "g"};
-    CHECK((Unitc-=Unitd) == NumberWithUnits{1999, "kg"});
-    CHECK((Unita-=Unitb) == NumberWithUnits{3, "km"});
-    CHECK(Unita == NumberWithUnits{3, "km"});
-    CHECK((Unitb-=Unita) == NumberWithUnits{-28000, "m"});
-    CHECK(Unitb== NumberWithUnits{-28000, "m"});
-}
-
-
-
-
-
-
-TEST_CASE("Comparison operators"){//{>, <, >=, <=, ==, !=}
-    NumberWithUnits::read_units(units_file);
-
-    
-    CHECK_GT(NumberWithUnits{7000, "m"}, NumberWithUnits{6, "km"});
-    CHECK_GT(NumberWithUnits{7000, "ton"}, NumberWithUnits{6, "k"});
-    CHECK_NE(NumberWithUnits{2, "km"}  , NumberWithUnits{2500, "m"});
-    CHECK_NE(NumberWithUnits{21, "ton"}  , NumberWithUnits{2500, "m"});
+    CHECK_EQ(NumberWithUnits{200, "cm"}, NumberWithUnits{2, "m"}); 
+    CHECK_GT(NumberWithUnits{5, "ton"}, NumberWithUnits{5, "k"});
+    CHECK_NE(NumberWithUnits{2.3, "km"}  , NumberWithUnits{265, "m"});
+    CHECK_NE(NumberWithUnits{28, "ton"}  , NumberWithUnits{27, "m"});
     CHECK_NE(NumberWithUnits{2500, "m"}, NumberWithUnits{2, "km"});
-    CHECK_LT(NumberWithUnits{1, "km"}  , NumberWithUnits{7000, "m"});
-    CHECK_LT(NumberWithUnits{2, "k"}  , NumberWithUnits{70, "ton"});
-    CHECK_GT(NumberWithUnits{3200, "m"}, NumberWithUnits{10, "cm"});
-    CHECK_NE(NumberWithUnits{20, "cm"} , NumberWithUnits{3200, "m"});
-    CHECK_LT(NumberWithUnits{20, "cm"} , NumberWithUnits{3200, "km"});
-    CHECK_NE(NumberWithUnits{3100, "m"}, NumberWithUnits{50, "cm"});
-
-    CHECK_FALSE(NumberWithUnits(2,"hour")>=NumberWithUnits(130,"min"));
-    CHECK_FALSE(NumberWithUnits(2,"km")>=NumberWithUnits(13000,"m"));
-
-
-    CHECK_EQ(NumberWithUnits{300, "cm"}, NumberWithUnits{3, "m"});
-    CHECK_EQ(NumberWithUnits{3, "m"}, NumberWithUnits{300, "cm"});
-    CHECK_EQ(NumberWithUnits{3, "km"}, NumberWithUnits{3000, "m"});
+    CHECK_LT(NumberWithUnits{3.1, "km"}  , NumberWithUnits{2, "m"});
+    CHECK_LT(NumberWithUnits{2, "k"}  , NumberWithUnits{5, "ton"});
+    CHECK_GT(NumberWithUnits{33, "m"}, NumberWithUnits{6, "cm"});
+    CHECK_NE(NumberWithUnits{20, "cm"} , NumberWithUnits{7, "m"});
+    CHECK_FALSE(NumberWithUnits(2,"hour")>=NumberWithUnits(100,"min"));
+    CHECK_LT(NumberWithUnits{20, "cm"} , NumberWithUnits{200, "km"});
+    CHECK_NE(NumberWithUnits{50, "m"}, NumberWithUnits{56, "cm"});
+    CHECK_FALSE(NumberWithUnits(5,"km")>=NumberWithUnits(14,"m"));   
 }
+
+TEST_CASE("+= operators"){
+      NumberWithUnits::read_units(units_file);
+      NumberWithUnits Unit1{50, "g"};
+      NumberWithUnits Unit2{40, "km"};
+      NumberWithUnits Unit3{30, "m"};
+      NumberWithUnits Unit4{1, "kg"};
+    CHECK((Unit2+=Unit4) == NumberWithUnits{20, "kg"});
+    CHECK((Unit2+=Unit1) == NumberWithUnits{59, "km"});
+    CHECK(Unit3 == NumberWithUnits{9, "km"});
+    CHECK((Unit1+=Unit2) == NumberWithUnits{130, "m"});
+    CHECK(Unit2 == NumberWithUnits{1300, "m"});
+}
+
+
+
+
+
+TEST_CASE("++ Operators"){
+    NumberWithUnits::read_units(units_file);
+    NumberWithUnits Unit1{4, "min"};
+    NumberWithUnits Unit2{60, "km"};
+    CHECK(Unit2++ == NumberWithUnits{61, "min"});
+    CHECK(Unit1++ == NumberWithUnits{4, "km"});
+    CHECK(Unit1 == NumberWithUnits{35, "km"});
+    CHECK(++Unit2 == NumberWithUnits{60, "km"});
+    CHECK(Unit2 == NumberWithUnits{10, "km"});
+}
+
+
+TEST_CASE("-- Operators"){
+    NumberWithUnits::read_units(units_file);
+    NumberWithUnits Unit1{4, "min"};
+    NumberWithUnits Unit2{60, "km"};
+    CHECK(Unit2-- == NumberWithUnits{61, "min"});
+    CHECK(Unit1-- == NumberWithUnits{4, "km"});
+    CHECK(Unit1 == NumberWithUnits{35, "km"});
+    CHECK(--Unit2 == NumberWithUnits{60, "km"});
+    CHECK(Unit2 == NumberWithUnits{10, "km"});
+}
+
+TEST_CASE("Measure units"){
+    NumberWithUnits::read_units(units_file);
+
+    NumberWithUnits Unit1{10, "km"};
+    NumberWithUnits Unit2{73, "m"};
+    NumberWithUnits Unit3{42, "min"};
+    NumberWithUnits Unit4{6, "g"};
+    NumberWithUnits Unit5{7, "ton"};
+
+    CHECK_EQ(Unit4+Unit5 , NumberWithUnits{10,"km"});
+    CHECK_EQ(Unit2+Unit2 , NumberWithUnits{5.07, "m"});
+    CHECK_EQ(Unit2+Unit1 , NumberWithUnits{5007, "g"});
+    CHECK_THROWS(Unit3+Unit1);
+    CHECK_THROWS_MESSAGE(Unit3+Unit5,"cannot convert ");
+    CHECK_THROWS(Unit3+Unit1);
+}
+
+
+
+
+
+
+
+
+

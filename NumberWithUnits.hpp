@@ -7,21 +7,22 @@
 #include <map>
 #include<iostream>
 #include <string>
-#include <stdexcept>
-
 using namespace std;
 namespace ariel {
-    class NumberWithUnits {
+    class NumberWithUnits{
 
-        private:
-        string unit;
+    private:
         double amountUnit;
+        string unit;
 
-        public:
-           NumberWithUnits( double amountUnit,string unit) {
-               this->amountUnit=amountUnit;
-               this->unit = unit;
-           }
+    public:
+        NumberWithUnits(double amountUnit, string unit){
+            this->amountUnit = amountUnit;
+            this->unit = unit;
+        }
+
+
+           
             ~NumberWithUnits(){}
             static void read_units(ifstream& units_file);
 
@@ -37,8 +38,6 @@ namespace ariel {
               **/
              friend NumberWithUnits operator+(const NumberWithUnits& n1 , const NumberWithUnits& n2);
              friend NumberWithUnits operator+(const NumberWithUnits& n1 , const double n3);
-             friend NumberWithUnits operator+(const double n3, const NumberWithUnits& n1);
-             friend NumberWithUnits operator+(const NumberWithUnits&n1);
 
              /**
               * Operator +=
@@ -46,9 +45,9 @@ namespace ariel {
               * n2 - y
               * n3 - number (double)
               **/
+
              friend NumberWithUnits operator+=( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator+=( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator+=(const double n3, const NumberWithUnits& n1);
+            
 
              /**
               * Operator -
@@ -56,10 +55,11 @@ namespace ariel {
               * n2 - y
               * n3 - number (double)
               **/
-             friend NumberWithUnits operator-( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator-( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator-(const double n3, const NumberWithUnits& n1);
-             friend NumberWithUnits operator-(const NumberWithUnits&n1);
+             friend NumberWithUnits operator-( const NumberWithUnits& n1 ,const NumberWithUnits& n2);
+             friend NumberWithUnits operator-( const NumberWithUnits& n1);
+
+             
+             
 
               /**
               * Operator -=
@@ -69,7 +69,7 @@ namespace ariel {
               **/
              friend NumberWithUnits operator-=( NumberWithUnits& n1 ,const NumberWithUnits& n2);
              friend NumberWithUnits operator-=( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator-=(const double n3, const NumberWithUnits& n1);
+            
 
               /**
               * Operator > & Operator < 
@@ -77,12 +77,12 @@ namespace ariel {
               * n2 - y
               * n3 - number (double)
               **/
-             friend NumberWithUnits operator>( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator>( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator>(const double n3, const NumberWithUnits& n1);
-             friend NumberWithUnits operator<( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator<( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator<(const double n3, const NumberWithUnits& n1);
+             friend bool operator>( const NumberWithUnits& n1 ,const NumberWithUnits& n2);
+             friend bool operator>( NumberWithUnits& n1 ,const double n3);
+             friend bool operator>(const double n3, const NumberWithUnits& n1);
+             friend bool operator<( const NumberWithUnits& n1 ,const NumberWithUnits& n2);
+             friend bool operator<( const NumberWithUnits& n1 ,const double n3);
+             friend bool operator<(const double n3, const NumberWithUnits& n1);
 
              /**
               * Operator >= & Operator <= 
@@ -90,12 +90,12 @@ namespace ariel {
               * n2 - y
               * n3 - number (double)
               **/
-             friend NumberWithUnits operator>=( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator>=( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator>=(const double n3, const NumberWithUnits& n1);
-             friend NumberWithUnits operator<=( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator<=( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator<=(const double n3, const NumberWithUnits& n1);
+             friend bool operator>=(const NumberWithUnits& n1 ,const NumberWithUnits& n2);
+             friend bool operator>=(const NumberWithUnits& n1 ,const double n3);
+             friend bool operator>=(const double n3, const NumberWithUnits& n1);
+             friend bool operator<=( const NumberWithUnits& n1 ,const NumberWithUnits& n2);
+             friend bool operator<=( NumberWithUnits& n1 ,const double n3);
+             friend bool operator<=(const double n3, const NumberWithUnits& n1);
 
              /**
               * Operator == < 
@@ -103,9 +103,28 @@ namespace ariel {
               * n2 - y
               * n3 - number (double)
               **/
-             friend NumberWithUnits operator==( NumberWithUnits& n1 ,const NumberWithUnits& n2);
-             friend NumberWithUnits operator==( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator==(const double n3, const NumberWithUnits& n1);
+             friend bool operator==( const NumberWithUnits& n1 ,const NumberWithUnits& n2);
+             friend bool operator==( NumberWithUnits& n1 ,const double n3);
+             friend bool operator==(const double n3, const NumberWithUnits& n1);
+
+
+
+             /**
+              * Operator ++
+              * 
+              * 
+              **/
+             friend NumberWithUnits operator++(NumberWithUnits& n1);
+             friend NumberWithUnits operator++(NumberWithUnits&n1,int);
+
+             /**
+              * Operator --
+              * 
+              * 
+              **/
+             friend NumberWithUnits operator--(NumberWithUnits& n1);
+             friend NumberWithUnits operator--(NumberWithUnits&n1,int);
+
 
              /**
               * Operator *
@@ -125,6 +144,6 @@ namespace ariel {
               **/
              friend NumberWithUnits operator/( NumberWithUnits& n1 ,const NumberWithUnits& n2);
              friend NumberWithUnits operator/( NumberWithUnits& n1 ,const double n3);
-             friend NumberWithUnits operator/(const double n3, const NumberWithUnits& n1);
-    };
+             friend NumberWithUnits operator/(const double n3, const NumberWithUnits& n1);      
+     };
 }

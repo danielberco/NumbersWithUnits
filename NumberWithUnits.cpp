@@ -8,6 +8,8 @@
 
 
 using namespace std;
+
+
 namespace ariel {
     static map <string,map<string,double>> tab;
 
@@ -24,6 +26,20 @@ namespace ariel {
             throw invalid_argument{"Error:  Cannot convert from "+ u1 +" to "+ u2};
         }
     }
+
+    double checkUnit (const string u1, const string u2, double n) {
+        if (u1 == u2) {
+            return n;
+        }
+        try {
+            return n * tab[u1][u2];
+        }
+        catch(const exception& exe) {
+            throw invalid_argument("Cannot convet units");
+
+        }
+    }
+
 
     void addUnits(const string u1, const string u2) {
         for (const auto &at : tab[u1]) {
@@ -70,24 +86,50 @@ namespace ariel {
        return NumberWithUnits(n1.amountUnit+n3,n1.unit); 
     }
 
-    
+    /**
+     * Overloading operator -
+     * 
+     * 
+     * */
 
+    NumberWithUnits operator-(const NumberWithUnits& n1,const NumberWithUnits& n2) {
+        double x = convertUnit(n2.unit,n1.unit,n2.amountUnit);
+        return NumberWithUnits(n1.amountUnit-x,n1.unit);
+    }
 
+    NumberWithUnits operator-(const NumberWithUnits& n1) {
+        return NumberWithUnits(-n1.amountUnit,n1.unit);
+    }
 
-    
+    NumberWithUnits operator+=(NumberWithUnits& n1,const NumberWithUnits& n2) {
+        double x = convertUnit(n2.unit,n1.unit,n2.amountUnit);
+        n1.amountUnit += x;
+        return n1;
+    }
 
+    NumberWithUnits operator-=(NumberWithUnits& n1,const NumberWithUnits& n2) {
+        double x = convertUnit(n2.unit,n1.unit,n2.amountUnit);
+        n1.amountUnit -= x;
+        return NumberWithUnits(n1.amountUnit, n1.unit);   
+    }
 
+    bool operator>(const NumberWithUnits& n1, const NumberWithUnits& n2) {
+        return n1.amountUnit>checkUnit(n2.unit,n1.unit,n2.amountUnit);
+    }
 
+    bool operator<(const NumberWithUnits& n1, const NumberWithUnits& n2) {
+        return n1.amountUnit<checkUnit(n2.unit,n1.unit,n2.amountUnit);
+    }
 
+    bool operator>=(const NumberWithUnits& n1, const NumberWithUnits& n2) {
+        return n1.amountUnit>=checkUnit(n2.unit,n1.unit,n2.amountUnit);
+    }
 
+    bool operator<=(const NumberWithUnits& n1, const NumberWithUnits& n2) {
+        return n1.amountUnit<=checkUnit(n2.unit,n1.unit,n2.amountUnit);
+    }
 
-
-
-
-
-
-
-
-
-
+    bool operator==(const NumberWithUnits& n1, const NumberWithUnits& n2) {
+        return n1.amountUnit>=checkUnit(n2.unit,n1.unit,n2.amountUnit);
+  }
 }
